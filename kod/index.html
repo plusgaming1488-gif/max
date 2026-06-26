@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная - Создай свой вкус</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            padding: 15px 40px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3436;
+        }
+
+        .logo span {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-create-taste {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFC947);
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-create-taste:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+        }
+
+        .btn-register-header {
+            padding: 10px 25px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3436;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-register-header:hover {
+            background: #FF6B6B;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 40px 20px;
+        }
+
+        .hero {
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFC947);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #636e72;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 150px;
+            max-width: 200px;
+            transition: 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-item .emoji {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .feature-item h3 {
+            font-size: 16px;
+            color: #2d3436;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .header-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .features {
+                gap: 15px;
+            }
+
+            .feature-item {
+                min-width: 120px;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-create-taste {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .btn-register-header {
+                padding: 8px 18px;
+                font-size: 13px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">
+            🍽️ <span>ВкусМир</span>
+        </div>
+        <div class="header-actions">
+            <a href="create-taste.html" class="btn-create-taste">
+                🎨 Создать вкус
+            </a>
+            <a href="register.html" class="btn-register-header">
+                Регистрация
+            </a>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="hero">
+            <h1>
+                Создай свой<br>
+                <span class="highlight">уникальный вкус</span>
+            </h1>
+            <p>
+                Экспериментируйте с ингредиентами,<br>
+                создавайте неповторимые сочетания и делитесь ими с миром!
+            </p>
+
+            <a href="create-taste.html" class="btn-create-taste" style="font-size: 20px; padding: 16px 40px; margin-top: 10px;">
+                🚀 Начать творить
+            </a>
+
+            <div class="features">
+                <div class="feature-item">
+                    <span class="emoji">🍓</span>
+                    <h3>Сладкий</h3>
+                </div>
+                <div class="feature-item">
+                    <span class="emoji">🌶️</span>
+                    <h3>Острый</h3>
+                </div>
+                <div class="feature-item">
+                    <span class="emoji">🍋</span>
+                    <h3>Кислый</h3>
+                </div>
+                <div class="feature-item">
+                    <span class="emoji">🧂</span>
+                    <h3>Солёный</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

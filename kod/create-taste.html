@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создай свой вкус</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFC947);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #636e72;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        /* Выбор вкусов */
+        .taste-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .taste-option {
+            padding: 15px 10px;
+            background: #f8f9fa;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        .taste-option:hover {
+            transform: scale(1.05);
+            border-color: #FF8E53;
+            background: #fff5f0;
+        }
+
+        .taste-option.selected {
+            border-color: #FF6B6B;
+            background: #ffe8e8;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+        }
+
+        .taste-option .emoji {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Кнопки */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .btn-create {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: white;
+        }
+
+        .btn-create:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* КНОПКА ПОКУПКИ */
+        .btn-buy {
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+        }
+
+        .btn-buy:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 25px rgba(0, 206, 201, 0.4);
+        }
+
+        .btn-buy:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Результат */
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff5f0, #ffe8e8);
+            border-radius: 15px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result h3 {
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .result .taste-name {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .result .price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00b894;
+            margin: 10px 0;
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-top: 20px;
+            color: #636e72;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .back-home:hover {
+            color: #FF6B6B;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 30px 20px; }
+            h1 { font-size: 28px; }
+            .taste-grid { grid-template-columns: repeat(2, 1fr); }
+            .btn-group { flex-direction: column; }
+            .btn { min-width: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Создай свой вкус</h1>
+        <p class="subtitle">Выберите ингредиенты для вашего уникального вкуса</p>
+
+        <!-- Выбор вкусов -->
+        <div class="taste-grid">
+            <div class="taste-option" data-taste="Сладкий">
+                <span class="emoji">🍓</span>
+                Сладкий
+            </div>
+            <div class="taste-option" data-taste="Острый">
+                <span class="emoji">🌶️</span>
+                Острый
+            </div>
+            <div class="taste-option" data-taste="Кислый">
+                <span class="emoji">🍋</span>
+                Кислый
+            </div>
+            <div class="taste-option" data-taste="Солёный">
+                <span class="emoji">🧂</span>
+                Солёный
+            </div>
+            <div class="taste-option" data-taste="Горький">
+                <span class="emoji">🍫</span>
+                Горький
+            </div>
+            <div class="taste-option" data-taste="Умами">
+                <span class="emoji">🍄</span>
+                Умами
+            </div>
+        </div>
+
+        <!-- Кнопки -->
+        <div class="btn-group">
+            <button class="btn btn-create" id="createBtn">✨ Создать вкус</button>
+            <button class="btn btn-buy" id="buyBtn" disabled>🛒 Купить вкус</button>
+        </div>
+
+        <!-- Результат -->
+        <div class="result" id="result">
+            <h3>🎉 Ваш уникальный вкус готов!</h3>
+            <p>Ваш вкус:</p>
+            <div class="taste-name" id="tasteResult">Сладкий + Острый</div>
+            <div class="price">₽ 499</div>
+            <p style="color: #636e72; font-size: 14px;">
+                💡 Нажмите "Купить вкус", чтобы оформить заказ
+            </p>
+        </div>
+
+        <a href="index.html" class="back-home">← На главную</a>
+    </div>
+
+    <script>
+        let selectedTastes = [];
+        let currentTaste = '';
+
+        // Выбор вкуса
+        document.querySelectorAll('.taste-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const taste = this.dataset.taste;
+                
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                    selectedTastes = selectedTastes.filter(t => t !== taste);
+                } else {
+                    this.classList.add('selected');
+                    selectedTastes.push(taste);
+                }
+
+                // Обновляем состояние кнопки покупки
+                document.getElementById('buyBtn').disabled = true;
+                document.getElementById('result').classList.remove('show');
+            });
+        });
+
+        // Создание вкуса
+        document.getElementById('createBtn').addEventListener('click', function() {
+            const resultDiv = document.getElementById('result');
+            const tasteResult = document.getElementById('tasteResult');
+            const buyBtn = document.getElementById('buyBtn');
+
+            if (selectedTastes.length === 0) {
+                alert('👆 Выберите хотя бы один вкус!');
+                return;
+            }
+
+            // Формируем название
+            let tasteName = selectedTastes.join(' + ');
+            const adjectives = ['Изумительный', 'Пикантный', 'Нежный', 'Яркий', 'Необычный', 'Классический'];
+            const randomAdj = adjectives[Math.floor(Math.random() * adjectives.length)];
+            currentTaste = `${randomAdj} ${tasteName}`;
+            
+            tasteResult.textContent = currentTaste;
+            
+            // Показываем результат
+            resultDiv.classList.add('show');
+            
+            // Активируем кнопку покупки
+            buyBtn.disabled = false;
+            
+            // Анимация кнопки
+            this.textContent = '✅ Создано!';
+            setTimeout(() => {
+                this.textContent = '✨ Создать ещё';
+            }, 2000);
+
+            // Эффект частиц
+            createParticles();
+        });
+
+        // КНОПКА ПОКУПКИ - переход на страницу заказа
+        document.getElementById('buyBtn').addEventListener('click', function() {
+            if (currentTaste) {
+                // Переходим на страницу заказа с параметром вкуса
+                window.location.href = `order.html?taste=${encodeURIComponent(currentTaste)}`;
+            }
+        });
+
+        // Эффект частиц
+        function createParticles() {
+            const colors = ['#FF6B6B', '#FF8E53', '#FFC947', '#FF4757', '#2ED573'];
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: fixed;
+                    width: ${Math.random() * 12 + 4}px;
+                    height: ${Math.random() * 12 + 4}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    border-radius: 50%;
+                    pointer-events: none;
+                    left: ${Math.random() * 100}vw;
+                    top: ${Math.random() * 100}vh;
+                    animation: flyParticle ${Math.random() * 1 + 0.5}s ease-out forwards;
+                `;
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1500);
+            }
+        }
+
+        // Добавляем ключевые кадры для частиц
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+            @keyframes flyParticle {
+                0% { transform: translate(0, 0) scale(1); opacity: 1; }
+                100% { transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * -300 - 50}px) scale(0); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление заказа</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #636e72;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            color: #FF6B6B;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .order-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #FF6B6B;
+        }
+
+        .order-summary .label {
+            color: #636e72;
+            font-size: 14px;
+        }
+
+        .order-summary .taste-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3436;
+            margin: 5px 0;
+        }
+
+        .order-summary .price {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00b894;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 5px;
+        }
+
+        label .required {
+            color: #FF6B6B;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #dfe6e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: 0.3s;
+            font-family: 'Arial', sans-serif;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #FF6B6B;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 25px rgba(0, 206, 201, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* Модальное окно успеха */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            animation: slideUp 0.4s ease;
+        }
+
+        .modal-content .big-emoji {
+            font-size: 64px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .modal-content h2 {
+            font-size: 28px;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            color: #636e72;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .modal-content .order-number {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #FF6B6B;
+            font-size: 18px;
+            margin: 15px 0;
+        }
+
+        .btn-modal-close {
+            padding: 12px 35px;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-modal-close:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 30px 20px; }
+            h1 { font-size: 26px; }
+            .form-row { grid-template-columns: 1fr; }
+            .order-summary .taste-name { font-size: 18px; }
+            .order-summary .price { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="create-taste.html" class="back-link">← Назад к созданию вкуса</a>
+
+        <h1>📦 Оформление заказа</h1>
+        <p style="color: #636e72; margin-bottom: 20px;">Заполните форму, чтобы получить свой уникальный вкус</p>
+
+        <!-- Информация о заказе -->
+        <div class="order-summary">
+            <div class="label">Ваш вкус:</div>
+            <div class="taste-name" id="orderTaste">Загрузка...</div>
+            <div class="label" style="margin-top: 10px;">Стоимость:</div>
+            <div class="price">₽ 499</div>
+        </div>
+
+        <!-- Форма заказа -->
+        <form id="orderForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">Имя <span class="required">*</span></label>
+                    <input type="text" id="firstName" placeholder="Ваше имя" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Фамилия <span class="required">*</span></label>
+                    <input type="text" id="lastName" placeholder="Ваша фамилия" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" placeholder="example@mail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Телефон <span class="required">*</span></label>
+                <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Адрес доставки <span class="required">*</span></label>
+                <input type="text" id="address" placeholder="Город, улица, дом, квартира" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="delivery">Способ доставки</label>
+                    <select id="delivery">
+                        <option value="courier">Курьером</option>
+                        <option value="pickup">Самовывоз</option>
+                        <option value="post">Почтой России</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="payment">Способ оплаты</label>
+                    <select id="payment">
+                        <option value="card">Банковская карта</option>
+                        <option value="cash">Наличными</option>
+                        <option value="online">Онлайн-платёж</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="comment">Комментарий к заказу</label>
+                <textarea id="comment" placeholder="Дополнительные пожелания..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">✅ Оформить заказ</button>
+        </form>
+    </div>
+
+    <!-- Модальное окно успеха -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <span class="big-emoji">🎉</span>
+            <h2>Заказ оформлен!</h2>
+            <p>Ваш уникальный вкус скоро будет у вас!</p>
+            <div class="order-number" id="orderNumber">#ORD-2026-001</div>
+            <p style="font-size: 14px; color: #636e72;">
+                Мы отправили подтверждение на ваш email
+            </p>
+            <button class="btn-modal-close" onclick="closeModal()">Отлично!</button>
+        </div>
+    </div>
+
+    <script>
+        // Получаем вкус из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const taste = urlParams.get('taste');
+
+        // Отображаем вкус
+        if (taste) {
+            document.getElementById('orderTaste').textContent = decodeURIComponent(taste);
+        } else {
+            document.getElementById('orderTaste').textContent = 'Классический вкус';
+        }
+
+        // Генерация номера заказа
+        function generateOrderNumber() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const num = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `#ORD-${year}-${num}`;
+        }
+
+        // Обработка отправки формы
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Проверяем заполнение полей
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+
+            if (!firstName || !lastName || !email || !phone || !address) {
+                alert('⚠️ Пожалуйста, заполните все обязательные поля!');
+                return;
+            }
+
+            // Показываем модальное окно
+            document.getElementById('orderNumber').textContent = generateOrderNumber();
+            document.getElementById('successModal').classList.add('active');
+
+            // Здесь можно добавить отправку данных на сервер
+            console.log('Заказ оформлен:', {
+                taste: document.getElementById('orderTaste').textContent,
+                firstName,
+                lastName,
+                email,
+                phone,
+                address,
+                delivery: document.getElementById('delivery').value,
+                payment: document.getElementById('payment').value,
+                comment: document.getElementById('comment').value
+            });
+        });
+
+        // Закрытие модального окна
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+            // Перенаправление на главную или страницу создания вкуса
+            setTimeout(() => {
+                window.location.href = 'create-taste.html';
+            }, 500);
+        }
+
+        // Закрытие по клику на фон
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Закрытие по ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('successModal');
+                if (modal.classList.contains('active')) {
+                    closeModal();
+                }
+            }
+        });
+
+        // Валидация телефона (простая маска)
+        document.getElementById('phone').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9+()\s-]/g, '');
+        });
+    </script>
+</body>
+</html>
